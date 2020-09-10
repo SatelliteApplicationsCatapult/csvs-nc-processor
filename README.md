@@ -23,6 +23,6 @@ docker run -it --rm --entrypoint /bin/sh  -v $(realpath .):/app satapps/netcdf-p
 
 ```bash
 # cd app
-# python main.py ERA5_daily_mean_2mTemp_1980.tar.gz air_temperature
+# python main.py ./resources/ERA5_daily_mean_2mTemp_1980.tar.gz air_temperature
 ```
 
