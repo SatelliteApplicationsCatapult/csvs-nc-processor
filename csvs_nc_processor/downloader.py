@@ -8,7 +8,7 @@ logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
 
-def obtain_files():
+def obtain_files() -> [pathlib.Path, pathlib.Path]:
     for t in data:
         for d in data[t]:
             for y in data_interval:
@@ -18,7 +18,7 @@ def obtain_files():
                 yield file, output_nc_file
 
 
-def download_file(filename, t):
+def download_file(filename: str, t: str) -> pathlib.Path:
     file = tmp_dir / filename
     file_url = data_url + t + '/' + filename
     tmp_dir.mkdir(parents=True, exist_ok=True)
