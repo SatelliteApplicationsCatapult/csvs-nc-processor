@@ -12,6 +12,7 @@ def merge_nc_files(files: list, output_file: str) -> str:
     try:
         cubes = iris.load(files, callback=add_std_name_cb)
         equalise_attributes(cubes)
+        logger.info('Merging files...')
         new_cube = cubes.merge_cube()
         logger.info(new_cube)
         iris.save(cubes.merge_cube(), output_file)
