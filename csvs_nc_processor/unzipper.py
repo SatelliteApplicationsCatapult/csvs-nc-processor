@@ -10,7 +10,7 @@ logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
 
-def decompress_nc_files_from(tar_filepath: pathlib.Path):
+def decompress_nc_files_from(tar_filepath: pathlib.Path) -> list:
     try:
         decompress_tar_file(tar_filepath, tmp_dir)
         decompressed_files = []
@@ -21,10 +21,10 @@ def decompress_nc_files_from(tar_filepath: pathlib.Path):
         return decompressed_files
     except Exception as e:
         logger.error(f'Something happened while decompressing: {e}')
-        return False
+        return []
 
 
-def decompress_tar_file(filename: pathlib.Path, output_path: pathlib.Path):
+def decompress_tar_file(filename: pathlib.Path, output_path: pathlib.Path) -> None:
     try:
         tar = tarfile.open(filename, "r:gz")
         logger.info(f"Extracting {filename}...")
@@ -34,7 +34,7 @@ def decompress_tar_file(filename: pathlib.Path, output_path: pathlib.Path):
         logger.error(f'Something happened while decompressing {filename}: {e}')
 
 
-def decompress_gzip_file(gzip_file: pathlib.Path):
+def decompress_gzip_file(gzip_file: pathlib.Path) -> str:
     with gzip.open(gzip_file, 'rb') as f_in:
         with open(gzip_file.with_suffix(''), 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)

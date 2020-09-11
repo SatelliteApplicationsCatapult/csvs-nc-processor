@@ -8,7 +8,7 @@ logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
 
-def merge_nc_files(files: list, output_file: str):
+def merge_nc_files(files: list, output_file: str) -> str:
     try:
         cubes = iris.load(files, callback=add_std_name_cb)
         equalise_attributes(cubes)
@@ -18,7 +18,7 @@ def merge_nc_files(files: list, output_file: str):
         return output_file
     except Exception as e:
         logger.error(f'Something happened while merging nc files: {e}')
-        return False
+        return ''
     finally:
         shutil.rmtree(tmp_dir)
 

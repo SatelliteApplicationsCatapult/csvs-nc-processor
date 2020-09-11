@@ -1,7 +1,7 @@
 import pathlib
 
 
-def path_to_str(path: pathlib.Path):
+def path_to_str(path: pathlib.Path) -> str:
     path_str = []
     for p in path.parts:
         path_str.append(p)

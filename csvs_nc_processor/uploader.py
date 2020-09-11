@@ -10,7 +10,7 @@ logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
 
-def upload_to_s3(filepath: pathlib.Path):
+def upload_to_s3(filepath: pathlib.Path) -> None:
     logger.info(f"Uploading {filepath} to {s3_bucket} bucket...")
     s3_client = boto3.client('s3', endpoint_url=s3_url, aws_access_key_id=s3_id,
                              aws_secret_access_key=s3_key)
