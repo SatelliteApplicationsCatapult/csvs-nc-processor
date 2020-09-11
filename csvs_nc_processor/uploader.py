@@ -1,7 +1,7 @@
 import boto3
 from botocore.exceptions import ClientError
 from utils import path_to_str
-from config import LOG_FORMAT, LOG_LEVEL, output_nc_file, \
+from config import LOG_FORMAT, LOG_LEVEL, \
     s3_id, s3_url, s3_key, s3_bucket
 import logging
 import pathlib
@@ -19,4 +19,4 @@ def upload_to_s3(filepath: pathlib.Path) -> None:
     except ClientError as e:
         logger.error(e)
     finally:
-        output_nc_file.unlink()
+        filepath.unlink()
