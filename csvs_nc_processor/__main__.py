@@ -1,6 +1,6 @@
 """Main module."""
 import logging
-from config import LOG_FORMAT, LOG_LEVEL, input_tar_file, output_nc_file
+from config import LOG_FORMAT, LOG_LEVEL
 from unzipper import decompress_nc_files_from
 from processor import merge_nc_files
 from uploader import upload_to_s3
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     try:
-        for input_tar_file in obtain_files():
+        for input_tar_file, output_nc_file in obtain_files():
             nc_files = decompress_nc_files_from(input_tar_file)
             if nc_files:
                 file = merge_nc_files(nc_files, output_nc_file)
