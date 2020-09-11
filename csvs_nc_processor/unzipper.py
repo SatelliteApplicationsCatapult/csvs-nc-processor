@@ -14,7 +14,7 @@ def decompress_nc_files_from(tar_filepath: pathlib.Path) -> list:
     try:
         decompress_tar_file(tar_filepath, tmp_dir)
         decompressed_files = []
-        files = [x for x in tmp_dir.glob('**/*') if x.is_file()]
+        files = [x for x in tmp_dir.glob('**/*.nc.gz') if x.is_file()]
         for file in files:
             logger.info(f"Extracting {file.name}...")
             decompressed_files.append(decompress_gzip_file(file))
