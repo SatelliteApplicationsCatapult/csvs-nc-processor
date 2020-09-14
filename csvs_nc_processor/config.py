@@ -13,8 +13,8 @@ s3_key = os.getenv('S3_KEY', 'key')
 tmp_dir = pathlib.Path.cwd() / '.tmp'
 std_name = os.getenv('STD_NAME', 'air_temperature')
 
-data_url = os.getenv('DATA_URL', 'http://37.128.186.209/LAURA/ERA5/')
-data = {
+climate_data_url = os.getenv('CLIMATE_DATA_URL', 'http://37.128.186.209/LAURA/ERA5/')
+climate_data_to_download = {
     'daily': [
         'ERA5_daily_mean_2mTemp',
         'ERA5_daily_mean_RH',
@@ -26,5 +26,5 @@ data = {
         'ERA5_daily_total_precipitation'
     ]
 }
-data_interval = range(1979, 2020)
+climate_data_interval = range(1979, 2020)
 file_type = '.tar.gz'

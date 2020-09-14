@@ -15,7 +15,7 @@ docker build -f ./docker/Dockerfile -t satapps/netcdf-processor .
 
 ``` docker
 docker run --name netcdf-processor --rm -d  \
-    -e DATA_URL=http://37.128.186.209/LAURA/ERA5/ \
+    -e CLIMATE_DATA_URL=http://37.128.186.209/LAURA/ERA5/ \
     -e STD_NAME=air_temperature\
     -e S3_URL=http://s3-uk-1.sa-catapult.co.uk \
     -e S3_BUCKET=csvs-netcdf \
