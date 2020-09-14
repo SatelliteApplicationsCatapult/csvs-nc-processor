@@ -25,6 +25,6 @@ docker run --name netcdf-processor --rm -d  \
 ```
 
 - Execute the netCDF processor
-`` docker
+``` docker
 docker exec -it netcdf-processor python csvs_nc_processor
 ```
