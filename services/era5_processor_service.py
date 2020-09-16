@@ -2,7 +2,7 @@ import logging
 import iris
 from iris.experimental.equalise_cubes import equalise_attributes
 
-from src.config import LOG_FORMAT, LOG_LEVEL, std_name
+from config import LOG_FORMAT, LOG_LEVEL, std_name
 import pathlib
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)

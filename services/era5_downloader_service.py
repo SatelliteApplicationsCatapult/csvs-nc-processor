@@ -1,6 +1,6 @@
 from typing import Dict, List, Generator
 import requests
-from src.config import LOG_FORMAT, LOG_LEVEL, tmp_dir, climate_data_url,\
+from config import LOG_FORMAT, LOG_LEVEL, tmp_dir, climate_data_url,\
     file_type, DateRange
 import pathlib
 import logging
