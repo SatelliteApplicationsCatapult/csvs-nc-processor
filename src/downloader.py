@@ -1,4 +1,3 @@
-import time
 from typing import Dict, List, Generator
 
 import requests
@@ -46,11 +45,10 @@ def download_file(filename: str, data_type: str) -> str:
 
     try:
         logger.info(f'Downloading {file_url}...')
-        # response = requests.get(file_url)
-        # response.raise_for_status()
-        # with file.open('wb') as f:
-        #     f.write(response.content)
-        time.sleep(2)
+        response = requests.get(file_url)
+        response.raise_for_status()
+        with file.open('wb') as f:
+            f.write(response.content)
     except HTTPError:
         logger.error(f'Error occurred trying to download {file_url}')
         raise
