@@ -8,7 +8,7 @@ to be published via thredds/geoserver.
 - Build the docker image contained in the env folder using the provided makefile
 
 ```docker
-docker build -f ./docker/Dockerfile -t satapps/netcdf-processor .
+docker build -t satapps/netcdf-processor .
 ```
 
 - Modify the env variables and run the container
@@ -19,12 +19,12 @@ docker run --name netcdf-processor --rm -d  \
     -e STD_NAME=air_temperature\
     -e S3_URL=http://s3-uk-1.sa-catapult.co.uk \
     -e S3_BUCKET=csvs-netcdf \
-    -e S3_ID=secret_id \
+    -e S3_ID=id \
     -e S3_KEY=secret_key \
     satapps/netcdf-processor
 ```
 
 - Execute the netCDF processor
 ``` docker
-docker exec -it netcdf-processor python csvs_nc_processor
+docker exec -it netcdf-processor python main.py
 ```

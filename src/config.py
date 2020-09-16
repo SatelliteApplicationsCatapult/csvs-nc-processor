@@ -1,4 +1,5 @@
 import os
+from collections import namedtuple
 from logging import INFO
 import pathlib
 
@@ -26,5 +27,6 @@ climate_data_to_download = {
         'ERA5_daily_total_precipitation'
     ]
 }
-climate_data_interval = range(1979, 2020)
+DateRange = namedtuple('DareRange', ['min', 'max'])
+date_range = DateRange(min=1979, max=2020)
 file_type = '.tar.gz'
