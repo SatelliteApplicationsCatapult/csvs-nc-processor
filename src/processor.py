@@ -24,16 +24,8 @@ def merge_nc_files(files: [str], output_filepath: str) -> None:
 
 
 def add_std_name_cb(cube, field, filename):
-    if cube.long_name == '2 metre temperature':
-        cube.standard_name = 'surface_temperature'
-    elif cube.long_name == 'Total precipitation':
-        cube.standard_name = 'precipitation_flux'
-    elif cube.long_name == 'Sea surface temperature':
-        cube.standard_name = 'sea_surface_temperature'
-    elif cube.long_name == 'Soil temperature level 1':
-        cube.standard_name = 'soil_temperature'
-    elif cube.long_name == 'Volumetric soil water layer 1':
-        cube.standard_name = 'volume_fraction_of_condensed_water_in_soil'
+    if std_name.get(cube.long_name) is not None:
+        cube.standard_name = std_name[cube.long_name]
 
 
 class MergeError(Exception):

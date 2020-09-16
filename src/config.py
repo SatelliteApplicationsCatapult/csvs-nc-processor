@@ -12,7 +12,13 @@ s3_id = os.getenv('S3_ID', 'id')
 s3_key = os.getenv('S3_KEY', 'key')
 
 tmp_dir = pathlib.Path.cwd() / '.tmp'
-std_name = os.getenv('STD_NAME', 'air_temperature')
+std_name = {
+    '2 metre temperature': 'surface_temperature',
+    'Total precipitation': 'precipitation_flux',
+    'Sea surface temperature': 'sea_surface_temperature',
+    'Soil temperature level 1': 'soil_temperature',
+    'Volumetric soil water layer 1': 'volume_fraction_of_condensed_water_in_soil'
+}
 
 climate_data_url = os.getenv('CLIMATE_DATA_URL', 'http://37.128.186.209/LAURA/ERA5/')
 climate_data_to_download = {
