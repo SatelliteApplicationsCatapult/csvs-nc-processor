@@ -1,28 +1,30 @@
 # netCDF Processor for CSVS
 
 Processes the netCDF files provided by MetOffice for CS project and covert them into suitable CF compliant files ready 
-to be published via threeds/geoserver.
+to be published via thredds/geoserver.
 
 ## Usage
 
 - Build the docker image contained in the env folder using the provided makefile
 
 ```docker
-cd env
-make build
-cd ..
+docker build -t satapps/netcdf-processor .
 ```
 
-- Run the docker image and mount the root directory on it
+- Modify the env variables and run the container
 
 ``` docker
-docker run -it --rm --entrypoint /bin/sh  -v $(realpath .):/app satapps/netcdf-processor:0.1
+docker run --name netcdf-processor --rm -d  \
+    -e CLIMATE_DATA_URL=http://37.128.186.209/LAURA/ERA5/ \
+    -e STD_NAME=air_temperature\
+    -e S3_URL=http://s3-uk-1.sa-catapult.co.uk \
+    -e S3_BUCKET=csvs-netcdf \
+    -e S3_ID=id \
+    -e S3_KEY=secret_key \
+    satapps/netcdf-processor
 ```
 
-- Move to app folder and execute the main file with the test file and test standard name
-
-```bash
-# cd app
-# python main.py ERA5_daily_mean_2mTemp_1980.tar.gz air_temperature
+- Execute the netCDF processor
+``` docker
+docker exec -it netcdf-processor python main.py
 ```
-
