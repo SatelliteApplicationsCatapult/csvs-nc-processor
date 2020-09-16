@@ -4,7 +4,7 @@ from src.config import LOG_FORMAT, LOG_LEVEL, climate_data_to_download, date_ran
 from src.unzipper import decompress_nc_files_from, DecompressError
 from src.processor import merge_nc_files, MergeError
 from src.uploader import upload_to_s3, UploadError
-from src.downloader import obtain_input_file, create_output_file, get_input_occurrences, get_era5_url_suffixes, \
+from src.downloader import create_output_file, get_input_occurrences, get_era5_url_suffixes, \
     download_era5_files
 import shutil
 
@@ -21,14 +21,13 @@ def main():
             for filename in download_era5_files(occurrence=occurrence, url_suffixes=era5_url_suffixes):
                 try:
                     output_nc_file = process_era5_data(filename)
-                    try:
-                        upload_to_s3(output_nc_file)
-                    except UploadError as ue:
-                        logger.error(f"Error occurred trying to upload: {ue}")
+                    upload_to_s3(output_nc_file)
+                except UploadError as ue:
+                    logger.error(f"Error occurred trying to upload {filename}: {ue}")
                 except DecompressError as de:
-                    logger.error(f"Error decompressing file: {de}")
+                    logger.error(f"Error decompressing {filename}: {de}")
                 except MergeError as me:
-                    logger.error(f"Error merging files: {me}")
+                    logger.error(f"Error merging {filename}: {me}")
                 finally:
                     shutil.rmtree(tmp_dir)
     except Exception as e:
