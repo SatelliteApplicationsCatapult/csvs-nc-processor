@@ -19,11 +19,8 @@ def upload_to_s3(filepath: str) -> None:
                                  aws_secret_access_key=s3_key)
         s3_client.upload_file(filepath, s3_bucket, pathlib.Path(filepath).name,
                               Callback=ProgressPercentage(filepath))
-    except ClientError as e:
-        logger.error(f"Error occurred trying to upload {filepath}: {e}")
-        raise
-    except Exception:
-        raise
+    except Exception as e:
+        raise UploadError(e)
 
 
 class ProgressPercentage(object):
@@ -44,3 +41,8 @@ class ProgressPercentage(object):
                     self._filename, self._seen_so_far, self._size,
                     percentage))
             sys.stdout.flush()
+
+
+class UploadError(Exception):
+    """Base class for exceptions in this module."""
+    pass
