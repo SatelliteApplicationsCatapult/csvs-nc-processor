@@ -1,5 +1,4 @@
 from typing import Dict, List, Generator
-
 import requests
 from src.config import LOG_FORMAT, LOG_LEVEL, tmp_dir, climate_data_url,\
     file_type, DateRange
@@ -26,17 +25,6 @@ def get_era5_url_suffixes(data_products: List[str], date_range: DateRange) -> Li
 def download_era5_files(occurrence: str, url_suffixes: List[str]) -> Generator[str, None, None]:
     for product in url_suffixes:
         yield download_file(filename=product, data_type=occurrence)
-
-
-def obtain_input_file(climate_data: Dict[str, list], date_range: DateRange) -> pathlib.Path:
-    try:
-        for t in climate_data:
-            for d in climate_data[t]:
-                for y in range(*date_range):
-                    filename = obtain_filename(d, str(y))
-                    yield download_file(filename, t)
-    except Exception:
-        raise
 
 
 def download_file(filename: str, data_type: str) -> str:
