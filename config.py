@@ -36,3 +36,5 @@ climate_data_to_download = {
 DateRange = namedtuple('DareRange', ['min', 'max'])
 date_range = DateRange(min=1979, max=2020)
 file_type = '.tar.gz'
+
+log_dir = pathlib.Path.cwd() / (os.getenv('LOG_DIR', 'log'))
