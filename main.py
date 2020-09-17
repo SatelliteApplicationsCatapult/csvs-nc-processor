@@ -1,10 +1,10 @@
 """Main module."""
 import logging
-from src.config import LOG_FORMAT, LOG_LEVEL, climate_data_to_download, date_range, tmp_dir
-from src.unzipper import decompress_nc_files_from, DecompressError
-from src.processor import merge_nc_files, MergeError
-from src.uploader import upload_to_s3, UploadError
-from src.downloader import create_output_file, get_input_occurrences, get_era5_url_suffixes, \
+from config import LOG_FORMAT, LOG_LEVEL, climate_data_to_download, date_range, tmp_dir
+from services.era5_unzipper_service import decompress_nc_files_from, DecompressError
+from services.era5_processor_service import merge_nc_files, MergeError
+from services.s3_uploader_service import upload_to_s3, UploadError
+from services.era5_downloader_service import create_output_file, get_input_occurrences, get_era5_url_suffixes, \
     download_era5_files
 import shutil
 

@@ -1,6 +1,5 @@
 import boto3
-from botocore.exceptions import ClientError
-from src.config import LOG_FORMAT, LOG_LEVEL, \
+from config import LOG_FORMAT, LOG_LEVEL, \
     s3_id, s3_url, s3_key, s3_bucket
 import logging
 import pathlib
