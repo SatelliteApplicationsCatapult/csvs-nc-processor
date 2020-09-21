@@ -23,11 +23,11 @@ def main():
                     output_nc_file = process_era5_data(filename)
                     upload_to_s3(output_nc_file)
                 except UploadError as ue:
-                    logger.error(f"Error occurred trying to upload {filename}: {ue}")
+                    logger.exception(f"Error occurred trying to upload {filename}: {ue}")
                 except DecompressError as de:
-                    logger.error(f"Error decompressing {filename}: {de}")
+                    logger.exception(f"Error decompressing {filename}: {de}")
                 except MergeError as me:
-                    logger.error(f"Error merging {filename}: {me}")
+                    logger.exception(f"Error merging {filename}: {me}")
                 finally:
                     shutil.rmtree(tmp_dir)
     except Exception as e:
