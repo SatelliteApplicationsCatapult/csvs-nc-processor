@@ -12,13 +12,28 @@ logger = logging.getLogger(__name__)
 def merge_nc_files(files: [str], output_filepath: str) -> None:
     try:
         output_file = pathlib.Path(output_filepath)
-        logger.info('Merging files...')
+        logger.info('Loading cubes...')
         cubes = iris.load(files, callback=add_std_name_cb)
+        logger.info('Merging files...')
         equalise_attributes(cubes)
         new_cube = cubes.merge_cube()
         logger.info(new_cube)
         logger.info(f'Saving {output_file}...')
         iris.save(new_cube, str(output_file))
+    except Exception as e:
+        raise MergeError(e)
+
+
+def concatenate_nc_files(files: [str], output_filepath: str) -> None:
+    try:
+        output_file = pathlib.Path(output_filepath)
+        logger.info('Loading cubes...')
+        cubes = iris.load(files, callback=add_std_name_cb)
+        logger.info('Concatenating files...')
+        new_cube = cubes.concatenate()
+        logger.info(new_cube[0])
+        logger.info(f'Saving {output_file}...')
+        iris.save(new_cube[0], str(output_file))
     except Exception as e:
         raise MergeError(e)
 
