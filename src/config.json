@@ -1,0 +1,14 @@
+{
+  "url": "http://37.128.186.209/LAURA",
+  "datasets": ["ERA5", "ERA5-Land"],
+  "occurrences": ["daily", "monthly", "30year"],
+  "start_value": 0,
+  "standard_names": {
+    "2 metre temperature": "surface_temperature",
+    "Total precipitation": "precipitation_flux",
+    "Sea surface temperature": "sea_surface_temperature",
+    "Soil temperature level 1": "soil_temperature",
+    "Volumetric soil water layer 1": "volume_fraction_of_condensed_water_in_soil",
+    "precipitation rate": "convective_precipitation_rate"
+  }
+}
