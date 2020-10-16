@@ -4,6 +4,8 @@ from datetime import datetime, timezone, timedelta
 import iris
 from bokeh.core.property.datetime import Datetime
 from iris.cube import CubeList, Cube
+from load_config import url, datasets, occurrences, product_filter
+from services.html_service import get_html_data_list
 
 
 def load_cubes_from_folder(folder_path: str) -> CubeList:
@@ -26,12 +28,11 @@ def create_output_file(input_file: str) -> str:
     return str(pathlib.Path(input_file).with_suffix('').with_suffix('.nc'))
 
 
-if __name__ == '__main__':
-    cubes = load_cubes_from_folder('./daily_prec_2019')
-    dates = []
-    for cube in cubes:
-        date = get_cube_timestamp(cube)
-        if date in dates:
-            print(f"{date} is already in the list")
-        else:
-            dates.append(date)
+def obtain_products_url():
+    products = []
+    for dataset in datasets:
+        for occurrence in occurrences:
+            occurrence_url = make_url(url, dataset, occurrence)
+            products_url = [make_url(occurrence_url, p) for p in get_html_data_list(occurrence_url)]
+            products.extend(products_url)
+    return [p for p in products if product_filter in p]

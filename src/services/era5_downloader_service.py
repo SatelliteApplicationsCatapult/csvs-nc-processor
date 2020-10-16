@@ -12,18 +12,18 @@ logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
 
 
-def download_products(data_url: str, products: List[str]) -> Generator[str, None, None]:
+def download_products(products: List[str]) -> Generator[str, None, None]:
     for product in products:
-        yield download_file(filename=product, url=data_url)
+        yield download_file(url=product)
 
 
-def download_file(filename: str, url: str) -> str:
+def download_file(url: str) -> str:
+    filename = url.split('/')[-1]
     file = create_tmp_file(filename)
-    file_url = make_url(url, filename)
 
     try:
-        logger.info(f'Downloading {file_url}...')
-        response = requests.get(file_url, stream=True)
+        logger.info(f'Downloading {url}...')
+        response = requests.get(url, stream=True)
         response.raise_for_status()
         with file.open('wb') as f:
             dl = 0
@@ -36,7 +36,7 @@ def download_file(filename: str, url: str) -> str:
                 sys.stdout.flush()
             sys.stdout.write("\n")
     except HTTPError:
-        logger.error(f'Error occurred trying to download {file_url}')
+        logger.error(f'Error occurred trying to download {url}')
         raise
 
     return str(file)
