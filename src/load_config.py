@@ -15,6 +15,7 @@ datasets = config['datasets']
 occurrences = config['occurrences']
 start_value = config['start_value']
 std_name = config['standard_names']
+aoi = config['aoi']
 
 tmp_dir = Path.cwd() / '.tmp'
 
