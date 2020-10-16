@@ -1,9 +1,9 @@
 import logging
 import iris
+from iris.cube import CubeList
 from iris.experimental.equalise_cubes import equalise_attributes
 
-from load_config import LOG_FORMAT, LOG_LEVEL, std_name
-import pathlib
+from load_config import LOG_FORMAT, LOG_LEVEL, std_name, aoi
 from utils import create_output_file
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
@@ -12,38 +12,37 @@ logger = logging.getLogger(__name__)
 
 def process_era5_data(nc_files: [str], filename: str) -> str:
     output_nc_file = create_output_file(filename)
+    logger.info('Loading cubes...')
+    cubes = iris.load(nc_files, callback=add_std_name_cb).extract(
+        iris.Constraint(coord_values={'latitude': lambda cell: aoi['latitude'][0] < cell < aoi['latitude'][1],
+                                      'longitude': lambda cell: aoi['longitude'][0] < cell < aoi['longitude'][1]})
+    )
     if 'daily' in filename:
-        merge_nc_files(nc_files, output_nc_file)
+        merge_nc_files(cubes, output_nc_file)
     elif 'monthly' in filename:
-        concatenate_nc_files(nc_files, output_nc_file)
+        concatenate_nc_files(cubes, output_nc_file)
     return output_nc_file
 
 
-def merge_nc_files(files: [str], output_filepath: str) -> None:
+def merge_nc_files(cubes: CubeList, output_filepath: str) -> None:
     try:
-        output_file = pathlib.Path(output_filepath)
-        logger.info('Loading cubes...')
-        cubes = iris.load(files, callback=add_std_name_cb)
         logger.info('Merging files...')
         equalise_attributes(cubes)
         new_cube = cubes.merge_cube()
         logger.info(new_cube)
-        logger.info(f'Saving {output_file}...')
-        iris.save(new_cube, str(output_file))
+        logger.info(f'Saving {output_filepath}...')
+        iris.save(new_cube, output_filepath)
     except Exception as e:
         raise MergeError(e)
 
 
-def concatenate_nc_files(files: [str], output_filepath: str) -> None:
+def concatenate_nc_files(cubes: CubeList, output_filepath: str) -> None:
     try:
-        output_file = pathlib.Path(output_filepath)
-        logger.info('Loading cubes...')
-        cubes = iris.load(files, callback=add_std_name_cb)
         logger.info('Concatenating files...')
         new_cube = cubes.concatenate()
         logger.info(new_cube[0])
-        logger.info(f'Saving {output_file}...')
-        iris.save(new_cube[0], str(output_file))
+        logger.info(f'Saving {output_filepath}...')
+        iris.save(new_cube[0], output_filepath)
     except Exception as e:
         raise MergeError(e)
 

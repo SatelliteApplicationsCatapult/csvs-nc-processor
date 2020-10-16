@@ -16,7 +16,7 @@ def decompress_nc_files_from(tar_filepath: str) -> list:
         files = [x for x in tmp_dir.glob('**/*.nc.gz') if x.is_file()]
         if files:
             for file in files:
-                logger.info(f"Extracting {file.name}...")
+                logger.debug(f"Extracting {file.name}...")
                 decompressed_files.append(decompress_gzip_file(file))
         else:
             decompressed_files = [str(x) for x in tmp_dir.glob('**/*.nc') if x.is_file()]
