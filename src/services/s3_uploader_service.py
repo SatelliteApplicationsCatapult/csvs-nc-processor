@@ -17,7 +17,18 @@ def upload_to_s3(filepath: str) -> None:
         logger.info(f"Uploading {filepath} to {s3_bucket} bucket...")
         s3_client = boto3.client('s3', endpoint_url=s3_url, aws_access_key_id=s3_id,
                                  aws_secret_access_key=s3_key)
-        s3_client.upload_file(filepath, s3_bucket, pathlib.Path(filepath).name,
+        file = pathlib.Path(filepath)
+        dataset = file.stem.split('_')[0]
+        if 'daily' in filepath:
+            folder = file.stem[:-5]
+            bucket_url = f"{dataset}/daily/{folder}/{file.name}"
+        elif 'monthly' in filepath:
+            bucket_url = f"{dataset}/monthly/{file.name}"
+        elif '30year' in filepath:
+            bucket_url = f"{dataset}/30year/{file.name}"
+        else:
+            bucket_url = file.name
+        s3_client.upload_file(filepath, s3_bucket, bucket_url,
                               Callback=ProgressPercentage(filepath))
     except Exception as e:
         raise UploadError(e)
