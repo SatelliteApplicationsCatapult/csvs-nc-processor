@@ -17,10 +17,11 @@ def process_era5_data(nc_files: [str], filename: str) -> str:
         iris.Constraint(coord_values={'latitude': lambda cell: aoi['latitude'][0] < cell < aoi['latitude'][1],
                                       'longitude': lambda cell: aoi['longitude'][0] < cell < aoi['longitude'][1]})
     )
-    if 'daily' in filename:
-        merge_nc_files(cubes, output_nc_file)
-    elif 'monthly' in filename:
+    if 'monthly' in filename:
         concatenate_nc_files(cubes, output_nc_file)
+    else:
+        merge_nc_files(cubes, output_nc_file)
+
     return output_nc_file
 
 
