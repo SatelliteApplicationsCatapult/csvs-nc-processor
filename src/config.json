@@ -17,6 +17,9 @@
     "soil_temperature": "celsius",
     "relative_humidity": "%"
   },
+  "long_names": {
+    "relative_humidity": "Relative Humidity"
+  },
   "aoi": {
     "latitude": [-40, 20],
     "longitude": [135, 210]

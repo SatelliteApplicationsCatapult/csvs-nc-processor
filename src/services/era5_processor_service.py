@@ -3,7 +3,7 @@ import iris
 from iris.cube import CubeList
 from iris.experimental.equalise_cubes import equalise_attributes
 
-from load_config import LOG_FORMAT, LOG_LEVEL, std_name, aoi, units
+from load_config import LOG_FORMAT, LOG_LEVEL, std_name, aoi, units, long_names
 from utils import create_output_file
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
@@ -53,7 +53,8 @@ def add_std_name_cb(cube, field, filename):
     if cube.standard_name is None:
         if std_name.get(cube.long_name) is not None:
             cube.standard_name = std_name[cube.long_name]
-
+    if long_names.get(cube.standard_name) is not None:
+        cube.long_name = long_names[cube.standard_name]
     cube.convert_units(units[cube.standard_name])
 
 

@@ -17,6 +17,7 @@ product_list = config['products']
 std_name = config['standard_names']
 aoi = config['aoi']
 units = config['units']
+long_names = config['long_names']
 
 tmp_dir = Path.cwd() / '.tmp'
 
