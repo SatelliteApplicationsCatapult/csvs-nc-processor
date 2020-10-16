@@ -3,7 +3,7 @@ import iris
 from iris.cube import CubeList
 from iris.experimental.equalise_cubes import equalise_attributes
 
-from load_config import LOG_FORMAT, LOG_LEVEL, std_name, aoi
+from load_config import LOG_FORMAT, LOG_LEVEL, std_name, aoi, units
 from utils import create_output_file
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
@@ -17,10 +17,11 @@ def process_era5_data(nc_files: [str], filename: str) -> str:
         iris.Constraint(coord_values={'latitude': lambda cell: aoi['latitude'][0] < cell < aoi['latitude'][1],
                                       'longitude': lambda cell: aoi['longitude'][0] < cell < aoi['longitude'][1]})
     )
-    if 'monthly' in filename:
-        concatenate_nc_files(cubes, output_nc_file)
-    else:
+    if 'daily' in filename:
         merge_nc_files(cubes, output_nc_file)
+    else:
+        concatenate_nc_files(cubes, output_nc_file)
+
 
     return output_nc_file
 
@@ -52,6 +53,8 @@ def add_std_name_cb(cube, field, filename):
     if cube.standard_name is None:
         if std_name.get(cube.long_name) is not None:
             cube.standard_name = std_name[cube.long_name]
+    if units.get(cube.long_name) is not None:
+        cube.convert_units(units[cube.long_name])
 
 
 class MergeError(Exception):

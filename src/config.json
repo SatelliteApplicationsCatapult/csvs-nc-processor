@@ -11,6 +11,11 @@
     "Volumetric soil water layer 1": "volume_fraction_of_condensed_water_in_soil",
     "precipitation rate": "convective_precipitation_rate"
   },
+    "units": {
+    "2 metre temperature": "celsius",
+    "Sea surface temperature": "kelvin",
+    "Soil temperature level 1": "celsius"
+  },
   "aoi": {
     "latitude": [-40, 20],
     "longitude": [135, 210]
