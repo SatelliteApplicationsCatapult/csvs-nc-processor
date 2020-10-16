@@ -53,8 +53,8 @@ def add_std_name_cb(cube, field, filename):
     if cube.standard_name is None:
         if std_name.get(cube.long_name) is not None:
             cube.standard_name = std_name[cube.long_name]
-    if units.get(cube.long_name) is not None:
-        cube.convert_units(units[cube.long_name])
+
+    cube.convert_units(units[cube.standard_name])
 
 
 class MergeError(Exception):
