@@ -13,7 +13,7 @@ with open(Path(__file__).parent / "config.json") as json_data_file:
 url = config['url']
 datasets = config['datasets']
 occurrences = config['occurrences']
-start_value = config['start_value']
+product_list = config['products']
 std_name = config['standard_names']
 aoi = config['aoi']
 units = config['units']

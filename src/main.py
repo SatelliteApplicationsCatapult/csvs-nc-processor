@@ -1,7 +1,7 @@
 """Main module."""
 import logging
 from load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir, url, datasets, \
-    occurrences, start_value
+    occurrences, product_list
 from services.era5_unzipper_service import decompress_nc_files_from, DecompressError
 from services.era5_processor_service import MergeError, process_era5_data
 from services.html_service import get_html_data_list
@@ -20,7 +20,10 @@ def main():
         for dataset in datasets:
             for occurrence in occurrences:
                 occurrence_url = make_url(url, dataset, occurrence)
-                products = get_html_data_list(occurrence_url)[start_value:]
+                if not product_list:
+                    products = get_html_data_list(occurrence_url)
+                else:
+                    products = product_list
                 for filename in download_products(data_url=occurrence_url, products=products):
                     try:
                         nc_files = decompress_nc_files_from(filename)
