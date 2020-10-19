@@ -18,19 +18,16 @@ def process_era5_data(nc_files: [str], filename: str) -> str:
         iris.Constraint(coord_values={'latitude': lambda cell: aoi['latitude'][0] < cell < aoi['latitude'][1],
                                       'longitude': lambda cell: aoi['longitude'][0] < cell < aoi['longitude'][1]})
     )
-    for k, v in join_nc_files(cubes, output_nc_file).items():
-        if filename in k:
-            output_file = v
+    my_registry = {
+        'daily': merge_nc_files,
+        'monthly': concatenate_nc_files,
+        '30year': concatenate_nc_files
+    }
+    for k, v in my_registry.items():
+        if k in filename:
+            output_file = v(cubes, output_nc_file)
 
     return output_file
-
-
-def join_nc_files(cubes, output_nc_file):
-    return {
-        'daily': merge_nc_files(cubes, output_nc_file),
-        'monthly': concatenate_nc_files(cubes, output_nc_file),
-        '30year': concatenate_nc_files(cubes, output_nc_file)
-    }
 
 
 def merge_nc_files(cubes: CubeList, output_filepath: str) -> None:
