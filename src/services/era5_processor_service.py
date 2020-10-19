@@ -12,18 +12,25 @@ logger = logging.getLogger(__name__)
 
 def process_era5_data(nc_files: [str], filename: str) -> str:
     output_nc_file = create_output_file(filename)
+    output_file = ''
     logger.info('Loading cubes...')
     cubes = iris.load(nc_files, callback=add_std_name_cb).extract(
         iris.Constraint(coord_values={'latitude': lambda cell: aoi['latitude'][0] < cell < aoi['latitude'][1],
                                       'longitude': lambda cell: aoi['longitude'][0] < cell < aoi['longitude'][1]})
     )
-    if 'daily' in filename:
-        merge_nc_files(cubes, output_nc_file)
-    else:
-        concatenate_nc_files(cubes, output_nc_file)
+    for k, v in join_nc_files(cubes, output_nc_file).items():
+        if filename in k:
+            output_file = v
+
+    return output_file
 
 
-    return output_nc_file
+def join_nc_files(cubes, output_nc_file):
+    return {
+        'daily': merge_nc_files(cubes, output_nc_file),
+        'monthly': concatenate_nc_files(cubes, output_nc_file),
+        '30year': concatenate_nc_files(cubes, output_nc_file)
+    }
 
 
 def merge_nc_files(cubes: CubeList, output_filepath: str) -> None:
