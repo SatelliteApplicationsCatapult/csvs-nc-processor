@@ -14,7 +14,7 @@ def process_era5_data(nc_files: [str], filename: str) -> str:
     output_nc_file = create_output_file(filename)
     output_file = ''
     logger.info('Loading cubes...')
-    cubes = iris.load(nc_files, callback=add_std_name_cb).extract(
+    cubes = iris.load(nc_files, callback=load_cubes_cb).extract(
         iris.Constraint(coord_values={'latitude': lambda cell: aoi['latitude'][0] < cell < aoi['latitude'][1],
                                       'longitude': lambda cell: aoi['longitude'][0] < cell < aoi['longitude'][1]})
     )
@@ -53,7 +53,7 @@ def concatenate_nc_files(cubes: CubeList, output_filepath: str) -> None:
         raise MergeError(e)
 
 
-def add_std_name_cb(cube, field, filename):
+def load_cubes_cb(cube, field, filename):
     if cube.standard_name is None:
         if std_name.get(cube.long_name) is not None:
             cube.standard_name = std_name[cube.long_name]
