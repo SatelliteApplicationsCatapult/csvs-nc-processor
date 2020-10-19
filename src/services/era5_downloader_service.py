@@ -5,7 +5,6 @@ from load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir
 import pathlib
 import logging
 from requests.exceptions import HTTPError
-from utils import make_url
 
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
@@ -19,7 +18,7 @@ def download_products(products: List[str]) -> Generator[str, None, None]:
 
 def download_file(url: str) -> str:
     filename = url.split('/')[-1]
-    file = create_tmp_file(filename)
+    file = pathlib.Path(create_tmp_file(filename))
 
     try:
         logger.info(f'Downloading {url}...')
@@ -42,9 +41,6 @@ def download_file(url: str) -> str:
     return str(file)
 
 
-def create_tmp_file(filename: str) -> pathlib.Path:
+def create_tmp_file(filename: str) -> str:
     tmp_dir.mkdir(parents=True, exist_ok=True)
-    return tmp_dir / filename
-
-
-
+    return str(tmp_dir / filename)
