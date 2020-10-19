@@ -1,9 +1,8 @@
 FROM continuumio/miniconda3
 
-COPY requirements.txt /tmp/
-
 RUN conda install --yes -c conda-forge iris
 RUN conda update -n base -c defaults conda
+COPY requirements.txt /tmp/
 RUN conda install --yes --file /tmp/requirements.txt
 
 WORKDIR /usr/src/
