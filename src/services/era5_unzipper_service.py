@@ -42,7 +42,3 @@ def decompress_gzip_file(gzip_file: pathlib.Path) -> str:
 class DecompressError(Exception):
     """Base class for exceptions in this module."""
     pass
-
-
-if __name__ == '__main__':
-    nc_files = decompress_nc_files_from('')
