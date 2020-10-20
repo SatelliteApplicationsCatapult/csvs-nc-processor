@@ -1,0 +1,27 @@
+{
+  "url": "http://37.128.186.209/LAURA",
+  "datasets": ["ERA5", "ERA5-Land"],
+  "occurrences": ["daily", "monthly", "30year"],
+  "product_filter": "",
+  "standard_names": {
+    "2 metre temperature": "surface_temperature",
+    "Total precipitation": "precipitation_flux",
+    "Sea surface temperature": "sea_surface_temperature",
+    "Soil temperature level 1": "soil_temperature",
+    "Volumetric soil water layer 1": "volume_fraction_of_condensed_water_in_soil",
+    "precipitation rate": "convective_precipitation_rate"
+  },
+  "units": {
+    "surface_temperature": "celsius",
+    "sea_surface_temperature": "kelvin",
+    "soil_temperature": "celsius",
+    "relative_humidity": "%"
+  },
+  "long_names": {
+    "relative_humidity": "Relative Humidity"
+  },
+  "aoi": {
+    "latitude": [-40, 20],
+    "longitude": [135, 210]
+  }
+}

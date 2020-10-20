@@ -1,5 +1,5 @@
 import pathlib
-from config import LOG_FORMAT, LOG_LEVEL, tmp_dir
+from load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir
 import logging
 import tarfile
 import gzip
@@ -14,9 +14,12 @@ def decompress_nc_files_from(tar_filepath: str) -> list:
         decompress_tar_file(pathlib.Path(tar_filepath), tmp_dir)
         decompressed_files = []
         files = [x for x in tmp_dir.glob('**/*.nc.gz') if x.is_file()]
-        for file in files:
-            logger.info(f"Extracting {file.name}...")
-            decompressed_files.append(decompress_gzip_file(file))
+        if files:
+            for file in files:
+                logger.debug(f"Extracting {file.name}...")
+                decompressed_files.append(decompress_gzip_file(file))
+        else:
+            decompressed_files = [str(x) for x in tmp_dir.glob('**/*.nc') if x.is_file()]
         return decompressed_files
     except Exception as e:
         raise DecompressError(e)
