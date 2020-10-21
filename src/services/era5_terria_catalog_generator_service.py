@@ -84,21 +84,33 @@ def get_default_color_scale_rage(filename: str) -> [int, int]:
     return [v for k, v in color_scale_ranges.items() if k in filename][0]
 
 
-def add_entry_to_terria_catalog(entry: Dict) -> Dict:
+def add_entry_to_terria_catalog(entry: dict) -> dict:
     """ Adds the terria catalog entry to catalog and returns the new catalog"""
     terria_catalog = load_terria_catalog_yaml()
 
-    group_entry = [d.get('items') for d in terria_catalog.get('catalog') if d.get('name') in entry.get('name')]
-    if not group_entry:
-        pass
-        # TODO: Create group for this data
-    subgroup_entry = [d.get('items') for d in group_entry[0] if d.get('name') in entry.get('name')]
-    if not subgroup_entry:
-        pass
-        # TODO: Create subgroup for this data
-    terria_catalog.get('catalog').append(group_entry.append(subgroup_entry[0].append(entry)))
+    group_name = ' '.join(entry.get('name').split(' ')[:2])
+    group_entries = get_group_entries(group_name, terria_catalog.get('catalog'))
+
+    subgroup_name = ' '.join(entry.get('name').split(' ')[:4])
+    subgroup_entries = get_group_entries(subgroup_name, group_entries)
+
+    subgroup_entries.append(entry)
 
     return terria_catalog
+
+
+def get_group_entries(group_name: str, groups: list) -> list:
+    group = [d for d in groups if d.get('name', ' ') == group_name]
+    if not group:
+        groups.append({
+            'name': group_name,
+            'type': 'group',
+            'preserveOrder': True,
+            'isOpen': False,
+            'items': []
+        })
+        group = [d for d in groups if d.get('name') == group_name]
+    return group[0].get('items')
 
 
 def load_terria_catalog_yaml() -> Dict:

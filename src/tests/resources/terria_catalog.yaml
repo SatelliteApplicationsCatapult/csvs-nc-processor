@@ -1,9 +1,17 @@
 catalog:
-  - name: ERA5-Land
+  - name: ERA5-Land daily
     items:
       - name: "ERA5-Land daily mean 2mTemp"
         items:
         - name: ERA5-Land daily mean 2mTemp 2005
       - name: "ERA5-Land daily mean Precipitation"
+        items:
+        - name: ERA5-Land daily mean Precipitation 2015
+  - name: ERA5 daily
+    items:
+      - name: "ERA5 daily mean 2mTemp"
+        items:
+        - name: ERA5 daily mean 2mTemp 2005
+      - name: "ERA5 daily mean Precipitation"
         items:
         - name: ERA5-Land daily mean Precipitation 2015
