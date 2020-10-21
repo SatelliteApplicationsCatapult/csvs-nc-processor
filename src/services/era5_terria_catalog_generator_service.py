@@ -32,14 +32,14 @@ terria_catalog_yaml = './tests/resources/terria_catalog.yaml'
 new_terria_catalog_yaml = './tests/resources/new_terria_catalog.yaml'
 
 
-def generate_terria_catalog(filepath: str) -> Dict:
+def generate_terria_catalog(filepath: str) -> dict:
     catalog_entry = generate_terria_catalog_era5_entry(filepath)
     new_terria_catalog = add_entry_to_terria_catalog(catalog_entry)
     save_terria_catalog_file(new_terria_catalog)
     return new_terria_catalog
 
 
-def generate_terria_catalog_era5_entry(filepath: str) -> Dict:
+def generate_terria_catalog_era5_entry(filepath: str) -> dict:
     file = pathlib.Path(filepath)
     filename = file.stem
     dataset = "_".join(filename.split('_')[:4])
@@ -113,19 +113,13 @@ def get_group_entries(group_name: str, groups: list) -> list:
     return group[0].get('items')
 
 
-def load_terria_catalog_yaml() -> Dict:
+def load_terria_catalog_yaml() -> dict:
     """ Load terria catalog yml file and return it as a dictionary """
     with open(terria_catalog_yaml) as file:
         terria_catalog = yaml.load(file, Loader=yaml.FullLoader)
     return terria_catalog
 
 
-def save_terria_catalog_file(terria_catalog: Dict):
+def save_terria_catalog_file(terria_catalog: dict):
     with open(new_terria_catalog_yaml, 'w') as file:
-        catalog = yaml.dump(terria_catalog, file)
-    print(catalog)
-    return catalog
-
-
-if __name__ == '__main__':
-    generate_terria_catalog('ERA5-Land_daily_mean_2mTemp_2019.nc')
+        yaml.dump(terria_catalog, file)
