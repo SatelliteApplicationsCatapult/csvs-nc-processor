@@ -1,4 +1,4 @@
-from typing import Dict, Tuple
+from typing import Tuple
 
 import iris.analysis
 import iris
@@ -6,26 +6,27 @@ import yaml
 import pathlib
 
 variable_names = {
-    '2mTemp': 't2m',
-    'RH': 't2m',
-    'TotalWind': 'u10',
-    'mslp': 'msl',
-    'soil_temp': 'stl1',
-    'soil_water': 'swvl1',
-    'sol_rad': 'ssr',
+    'mean_2mTemp': 't2m',
+    'mean_RH': 't2m',
+    'mean_TotalWind': 'u10',
+    'mean_mslp': 'msl',
+    'mean_soil_temp_L1': 'stl1',
+    'mean_soil_water_L1': 'swvl1',
+    'mean_sol_rad': 'ssr',
     'total_precipitation': 'precipitation_rate',
-    'monthly_precipitation': 'tp'
+    'precipitation': 'tp'
 }
 
 color_scale_ranges = {
-    '2mTemp': [-50, 50],
-    'RH': [0, 100],
-    'TotalWind': [0, 13],
-    'mslp': [96500, 104000],
-    'soil_temp': [-50, 50],
-    'soil_water': [0, 1],
-    'sol_rad': [25860, 1291000],
-    'total_precipitation': [0, 1000]
+    'mean_2mTemp': [-50, 50],
+    'mean_RH': [0, 100],
+    'mean_TotalWind': [0, 13],
+    'mean_mslp': [96500, 104000],
+    'mean_soil_temp_L1': [-50, 50],
+    'mean_soil_water_L1': [0, 1],
+    'mean_sol_rad': [25860, 1291000],
+    'total_precipitation': [0, 1000],
+    'precipitation': [0, 1000]
 }
 
 terria_catalog_yaml = './tests/resources/terria_catalog.yaml'
@@ -43,11 +44,12 @@ def generate_terria_catalog_era5_entry(filepath: str) -> dict:
     file = pathlib.Path(filepath)
     filename = file.stem
     dataset = "_".join(filename.split('_')[:4])
+    product_key_name = get_product_key_name(filename)
     year = filename.split('_')[4]
     name = filename.replace('_', ' ')
-    var = get_variable_name(filename)
+    var = variable_names.get(product_key_name)
     # color_min, color_max = calculate_color_scale_range(filepath)
-    color_min, color_max = get_default_color_scale_rage(filename)
+    color_min, color_max = color_scale_ranges.get(product_key_name)
     time_start = f"{year}-01-01T11:00:00Z"
     time_end = f"{year}-12-31T11:00:00Z"
     thredds_url = "http://thredds:8080/thredds"
@@ -70,18 +72,32 @@ def generate_terria_catalog_era5_entry(filepath: str) -> dict:
     }
 
 
-def get_variable_name(filename: str) -> str:
-    return [v for k, v in variable_names.items() if k in filename][0]
+def get_product_key_name(filename: str) -> str:
+    occurrence_key = filename.split('_')[1]
+    occurrences = {
+        'daily': get_product_key_name_daily,
+        'monthly': get_product_key_name_monthly,
+        '30year': get_product_key_name_30year
+    }
+    return occurrences.get(occurrence_key)(filename)
+
+
+def get_product_key_name_daily(filename: str) -> str:
+    return '_'.join(filename.split('_')[2:4])
+
+
+def get_product_key_name_monthly(filename: str) -> str:
+    return '_'.join(filename.split('_')[2:-2])
+
+
+def get_product_key_name_30year(filename: str) -> str:
+    return '_'.join(filename.split('_')[2:])
 
 
 def calculate_color_scale_range(filepath: str) -> Tuple[int, int]:
     cube = iris.load_cube(filepath)
     mean_over_time = cube.collapsed('time', iris.analysis.MEAN)
     return int(mean_over_time.data.min()), int(mean_over_time.data.max())
-
-
-def get_default_color_scale_rage(filename: str) -> [int, int]:
-    return [v for k, v in color_scale_ranges.items() if k in filename][0]
 
 
 def add_entry_to_terria_catalog(entry: dict) -> dict:
