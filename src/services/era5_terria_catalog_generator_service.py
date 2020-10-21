@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Tuple
 
 import iris.analysis
 import iris
@@ -74,7 +74,7 @@ def get_variable_name(filename: str) -> str:
     return [v for k, v in variable_names.items() if k in filename][0]
 
 
-def calculate_color_scale_range(filepath: str) -> [int, int]:
+def calculate_color_scale_range(filepath: str) -> Tuple[int, int]:
     cube = iris.load_cube(filepath)
     mean_over_time = cube.collapsed('time', iris.analysis.MEAN)
     return int(mean_over_time.data.min()), int(mean_over_time.data.max())
