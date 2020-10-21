@@ -58,11 +58,11 @@ def generate_terria_catalog_era5_entry(filepath: str) -> Dict:
         'featureInfoTemplate':
             f'<p>{name}</p><chart src=\"{thredds_url}/ncss/{dataset}/{file.name}?'
             f'var={var}&'
-            f'latitude={{{{terria.coords.latitude}}}}&'
-            f'longitude={{{{terria.coords.longitude}}}}&'
+            'latitude={{terria.coords.latitude}}&'
+            'longitude={{terria.coords.longitude}}&'
             f'time_start={time_start}&'
             f'time_end={time_end}&'
-            f'accept=csv\" y-column=\"3\" hide-buttons=\"True\"></chart>',
+            'accept=csv\" y-column=\"3\" hide-buttons=\"True\"></chart>',
         'colorScaleMinimum': color_min,
         'colorScaleMaximum': color_max,
         'layers': var,
