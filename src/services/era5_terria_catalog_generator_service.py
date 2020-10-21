@@ -5,32 +5,7 @@ import iris
 import yaml
 import pathlib
 
-variable_names = {
-    'mean_2mTemp': 't2m',
-    'mean_RH': 't2m',
-    'mean_TotalWind': 'u10',
-    'mean_mslp': 'msl',
-    'mean_soil_temp_L1': 'stl1',
-    'mean_soil_water_L1': 'swvl1',
-    'mean_sol_rad': 'ssr',
-    'total_precipitation': 'precipitation_rate',
-    'precipitation': 'tp'
-}
-
-color_scale_ranges = {
-    'mean_2mTemp': [-50, 50],
-    'mean_RH': [0, 100],
-    'mean_TotalWind': [0, 13],
-    'mean_mslp': [96500, 104000],
-    'mean_soil_temp_L1': [-50, 50],
-    'mean_soil_water_L1': [0, 1],
-    'mean_sol_rad': [25860, 1291000],
-    'total_precipitation': [0, 1000],
-    'precipitation': [0, 1000]
-}
-
-terria_catalog_yaml = './tests/resources/terria_catalog.yaml'
-new_terria_catalog_yaml = './tests/resources/new_terria_catalog.yaml'
+from src.load_config import variable_names, color_scale_ranges, terria_catalog_yaml
 
 
 def generate_terria_catalog(filepath: str) -> dict:

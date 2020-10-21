@@ -18,8 +18,11 @@ std_name = config['standard_names']
 aoi = config['aoi']
 units = config['units']
 long_names = config['long_names']
+variable_names = config['variable_names']
+color_scale_ranges = config['color_scale_ranges']
 
 tmp_dir = Path.cwd() / '.tmp'
+terria_catalog_yaml = './tests/resources/terria_catalog.yaml'
 
 
 def get_aws_config() -> Tuple[str, str, str, str]:
