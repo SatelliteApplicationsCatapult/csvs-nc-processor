@@ -11,7 +11,7 @@ from src.load_config import variable_names, color_scale_ranges, terria_catalog_y
 def generate_terria_catalog(filepath: str) -> dict:
     catalog_entry = generate_terria_catalog_era5_entry(filepath)
     new_terria_catalog = add_entry_to_terria_catalog(catalog_entry)
-    save_terria_catalog_file(new_terria_catalog)
+    save_terria_catalog_file(new_terria_catalog, terria_catalog_yaml)
     return new_terria_catalog
 
 
@@ -111,6 +111,6 @@ def load_terria_catalog_yaml() -> dict:
     return terria_catalog
 
 
-def save_terria_catalog_file(terria_catalog: dict):
-    with open(new_terria_catalog_yaml, 'w') as file:
-        yaml.dump(terria_catalog, file)
+def save_terria_catalog_file(terria_catalog: dict, file: str):
+    with open(file, 'w') as f:
+        yaml.dump(terria_catalog, f)
