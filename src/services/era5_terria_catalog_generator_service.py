@@ -20,13 +20,11 @@ def generate_terria_catalog_era5_entry(filepath: str) -> dict:
     filename = file.stem
     dataset_root = get_dataset_root(filename)
     product_key_name = get_product_key_name(filename)
-    year = filename.split('_')[4]
     name = filename.replace('_', ' ')
     var = variable_names.get(product_key_name)
     # color_min, color_max = calculate_color_scale_range(filepath)
     color_min, color_max = color_scale_ranges.get(product_key_name)
-    time_start = f"{year}-01-01T11:00:00Z"
-    time_end = f"{year}-12-31T11:00:00Z"
+    time_start, time_end = get_start_end_dates(filename)
     thredds_url = "http://thredds:8080/thredds"
     style = styles.get(product_key_name)
 
@@ -79,6 +77,31 @@ def get_dataset_root(filename: str) -> str:
         '30year': get_dataset_root_monthly_30year
     }
     return occurrences.get(occurrence_key)(filename)
+
+
+def get_start_end_dates(filename: str) -> Tuple[str, str]:
+    occurrence_key = filename.split('_')[1]
+    occurrences = {
+        'daily': get_start_end_dates_daily,
+        'monthly': get_start_end_dates_monthly,
+        '30year': get_start_end_dates_30year
+    }
+    return occurrences.get(occurrence_key)(filename)
+
+
+def get_start_end_dates_daily(filename: str) -> Tuple[str, str]:
+    return f"{filename.split('_')[4]}-01-01T11:00:00Z", \
+           f"{filename.split('_')[4]}-12-31T11:00:00Z"
+
+
+def get_start_end_dates_monthly(filename: str) -> Tuple[str, str]:
+    return f"{filename.split('_')[4]}-01-16T12:00:00Z", \
+           f"{filename.split('_')[5]}-12-16T11:30:00Z"
+
+
+def get_start_end_dates_30year(filename: str) -> Tuple[str, str]:
+    return "1995-07-03T12:00:00Z", \
+           "1996-07-01T11:00:00Z"
 
 
 def get_dataset_root_daily(filename: str) -> str:
