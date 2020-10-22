@@ -7,7 +7,7 @@ from src.services.s3_uploader_service import upload_to_s3, UploadError
 from src.services.era5_downloader_service import download_products
 import shutil
 
-from src.utils import make_url, obtain_products_url
+from src.utils import obtain_products_url
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
