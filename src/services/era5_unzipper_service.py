@@ -1,5 +1,5 @@
 import pathlib
-from load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir
+from src.load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir
 import logging
 import tarfile
 import gzip

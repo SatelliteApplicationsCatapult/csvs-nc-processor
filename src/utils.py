@@ -4,8 +4,8 @@ from datetime import datetime, timezone, timedelta
 import iris
 from bokeh.core.property.datetime import Datetime
 from iris.cube import CubeList, Cube
-from load_config import url, datasets, occurrences, product_filter
-from services.html_service import get_html_data_list
+from src.load_config import url, datasets, occurrences, product_filter
+from src.services.html_service import get_html_data_list
 
 
 def load_cubes_from_folder(folder_path: str) -> CubeList:

@@ -1,5 +1,5 @@
 import boto3
-from load_config import LOG_FORMAT, LOG_LEVEL, get_aws_config
+from src.load_config import LOG_FORMAT, LOG_LEVEL, get_aws_config
 
 import logging
 import pathlib
