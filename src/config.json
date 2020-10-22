@@ -33,7 +33,8 @@
     "mean_soil_water_L1": "swvl1",
     "mean_sol_rad": "ssr",
     "total_precipitation": "precipitation_rate",
-    "precipitation": "tp"
+    "precipitation": "tp",
+    "TotalPrecip": "precipitation_rate"
   },
   "color_scale_ranges": {
     "mean_2mTemp": [-50, 50],
@@ -44,7 +45,8 @@
     "mean_soil_water_L1": [0, 1],
     "mean_sol_rad": [25860, 1291000],
     "total_precipitation": [0, 1000],
-    "precipitation": [0, 1000]
+    "precipitation": [0, 1000],
+    "TotalPrecip": [0, 1000]
   },
   "styles": {
     "mean_2mTemp": "boxfill/red-yellow",
@@ -55,6 +57,7 @@
     "mean_soil_water_L1": "boxfill/green-purple",
     "mean_sol_rad": "boxfill/red-yellow",
     "total_precipitation": "boxfill/blu-yellow",
-    "precipitation": "boxfill/blu-yellow"
+    "precipitation": "boxfill/blu-yellow",
+    "TotalPrecip": "boxfill/blu-yellow"
   }
 }
