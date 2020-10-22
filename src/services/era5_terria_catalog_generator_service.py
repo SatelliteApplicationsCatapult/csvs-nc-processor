@@ -5,7 +5,7 @@ import iris
 import yaml
 import pathlib
 
-from src.load_config import variable_names, color_scale_ranges, terria_catalog_yaml
+from src.load_config import variable_names, color_scale_ranges, terria_catalog_yaml, styles
 
 
 def generate_terria_catalog(filepath: str) -> dict:
@@ -28,6 +28,7 @@ def generate_terria_catalog_era5_entry(filepath: str) -> dict:
     time_start = f"{year}-01-01T11:00:00Z"
     time_end = f"{year}-12-31T11:00:00Z"
     thredds_url = "http://thredds:8080/thredds"
+    style = styles.get(product_key_name)
 
     return {
         'name': name,
@@ -43,7 +44,8 @@ def generate_terria_catalog_era5_entry(filepath: str) -> dict:
         'colorScaleMinimum': color_min,
         'colorScaleMaximum': color_max,
         'layers': var,
-        'url': f"{thredds_url}/wms/{dataset}/{file.name}?service=WMS&version=1.3.0&request=GetCapabilities"
+        'url': f"{thredds_url}/wms/{dataset}/{file.name}?service=WMS&version=1.3.0&request=GetCapabilities",
+        'style': style
     }
 
 
@@ -114,3 +116,7 @@ def load_terria_catalog_yaml() -> dict:
 def save_terria_catalog_file(terria_catalog: dict, file: str):
     with open(file, 'w') as f:
         yaml.dump(terria_catalog, f)
+
+
+if __name__ == '__main__':
+    generate_terria_catalog('ERA5-Land_daily_mean_2mTemp_1983.nc')

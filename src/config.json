@@ -45,5 +45,16 @@
     "mean_sol_rad": [25860, 1291000],
     "total_precipitation": [0, 1000],
     "precipitation": [0, 1000]
+  },
+  "styles": {
+    "mean_2mTemp": "boxfill/red-yellow",
+    "mean_RH": "boxfill/green-purple",
+    "mean_TotalWind": "boxfill/rainbow",
+    "mean_mslp": "boxfill/green-purple",
+    "mean_soil_temp_L1": "boxfill/red-yellow",
+    "mean_soil_water_L1": "boxfill/green-purple",
+    "mean_sol_rad": "boxfill/red-yellow",
+    "total_precipitation": "boxfill/blu-yellow",
+    "precipitation": "boxfill/blu-yellow"
   }
 }

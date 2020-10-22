@@ -20,6 +20,7 @@ units = config['units']
 long_names = config['long_names']
 variable_names = config['variable_names']
 color_scale_ranges = config['color_scale_ranges']
+styles = config['styles']
 
 tmp_dir = Path.cwd() / '.tmp'
 terria_catalog_yaml = './tests/resources/terria_catalog.yaml'
