@@ -116,7 +116,3 @@ def load_terria_catalog_yaml() -> dict:
 def save_terria_catalog_file(terria_catalog: dict, file: str):
     with open(file, 'w') as f:
         yaml.dump(terria_catalog, f)
-
-
-if __name__ == '__main__':
-    generate_terria_catalog('ERA5-Land_daily_mean_2mTemp_1983.nc')
