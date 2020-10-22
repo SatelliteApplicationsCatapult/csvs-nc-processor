@@ -43,7 +43,7 @@ def generate_terria_catalog_era5_entry(filepath: str) -> dict:
         'colorScaleMaximum': color_max,
         'layers': var,
         'url': f"{thredds_url}/wms/{dataset_root}/{file.name}?service=WMS&version=1.3.0&request=GetCapabilities",
-        'style': style
+        'styles': style
     }
 
 
