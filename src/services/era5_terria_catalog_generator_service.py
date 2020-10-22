@@ -18,7 +18,7 @@ def generate_terria_catalog(filepath: str) -> dict:
 def generate_terria_catalog_era5_entry(filepath: str) -> dict:
     file = pathlib.Path(filepath)
     filename = file.stem
-    dataset = "_".join(filename.split('_')[:4])
+    dataset_root = get_dataset_root(filename)
     product_key_name = get_product_key_name(filename)
     year = filename.split('_')[4]
     name = filename.replace('_', ' ')
@@ -34,7 +34,7 @@ def generate_terria_catalog_era5_entry(filepath: str) -> dict:
         'name': name,
         'type': 'wms',
         'featureInfoTemplate':
-            f'<p>{name}</p><chart src=\"{thredds_url}/ncss/{dataset}/{file.name}?'
+            f'<p>{name}</p><chart src=\"{thredds_url}/ncss/{dataset_root}/{file.name}?'
             f'var={var}&'
             'latitude={{terria.coords.latitude}}&'
             'longitude={{terria.coords.longitude}}&'
@@ -44,7 +44,7 @@ def generate_terria_catalog_era5_entry(filepath: str) -> dict:
         'colorScaleMinimum': color_min,
         'colorScaleMaximum': color_max,
         'layers': var,
-        'url': f"{thredds_url}/wms/{dataset}/{file.name}?service=WMS&version=1.3.0&request=GetCapabilities",
+        'url': f"{thredds_url}/wms/{dataset_root}/{file.name}?service=WMS&version=1.3.0&request=GetCapabilities",
         'style': style
     }
 
@@ -69,6 +69,24 @@ def get_product_key_name_monthly(filename: str) -> str:
 
 def get_product_key_name_30year(filename: str) -> str:
     return '_'.join(filename.split('_')[2:])
+
+
+def get_dataset_root(filename: str) -> str:
+    occurrence_key = filename.split('_')[1]
+    occurrences = {
+        'daily': get_dataset_root_daily,
+        'monthly': get_dataset_root_monthly_30year,
+        '30year': get_dataset_root_monthly_30year
+    }
+    return occurrences.get(occurrence_key)(filename)
+
+
+def get_dataset_root_daily(filename: str) -> str:
+    return "_".join(filename.split('_')[:4])
+
+
+def get_dataset_root_monthly_30year(filename: str) -> str:
+    return "_".join(filename.split('_')[:2])
 
 
 def calculate_color_scale_range(filepath: str) -> Tuple[int, int]:
