@@ -5,8 +5,10 @@ RUN conda update -n base -c defaults conda
 COPY requirements.txt /tmp/
 RUN conda install --yes --file /tmp/requirements.txt
 
-WORKDIR /usr/src/
-COPY src /usr/src/
+WORKDIR /app/
+COPY . /app/
+
+ENV PYTHONPATH /app/
 
 ENV S3_URL=http://s3-uk-1.sa-catapult.co.uk
 ENV S3_BUCKET=csvs-netcdf
