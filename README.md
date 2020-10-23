@@ -15,7 +15,13 @@ docker build -t satapps/netcdf-processor .
 docker run --name netcdf-processor --rm -d  \
     -e S3_ID=<s3 bucket id> \
     -e S3_KEY=<s3 bucket key> \
-    satapps/netcdf-processor python main.py
+    satapps/netcdf-processor src/entrypoints/main.py
+```
+
+- Run the terria catalog generator for ERA5-Land
+``` docker
+docker run --name netcdf-processor --rm -d  \
+    satapps/netcdf-processor python src/entrypoints/generate_era5_land_terria_catalog.py
 ```
 
 - Inspect the logs during the processing
