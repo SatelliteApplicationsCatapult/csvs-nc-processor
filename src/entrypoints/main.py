@@ -1,13 +1,13 @@
 """Main module."""
 import logging
-from load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir
-from services.era5_unzipper_service import decompress_nc_files_from, DecompressError
-from services.era5_processor_service import MergeError, process_era5_data
-from services.s3_uploader_service import upload_to_s3, UploadError
-from services.era5_downloader_service import download_products
+from src.load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir
+from src.services.era5_unzipper_service import decompress_nc_files_from, DecompressError
+from src.services.era5_processor_service import MergeError, process_era5_data
+from src.services.s3_uploader_service import upload_to_s3, UploadError
+from src.services.era5_downloader_service import download_products
 import shutil
 
-from utils import make_url, obtain_products_url
+from src.utils import obtain_products_url
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)

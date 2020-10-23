@@ -1,7 +1,7 @@
 import sys
 from typing import List, Generator
 import requests
-from load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir
+from src.load_config import LOG_FORMAT, LOG_LEVEL, tmp_dir
 import pathlib
 import logging
 from requests.exceptions import HTTPError

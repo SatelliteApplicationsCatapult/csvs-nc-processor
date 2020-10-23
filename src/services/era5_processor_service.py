@@ -3,8 +3,8 @@ import iris
 from iris.cube import CubeList, Cube
 from iris.experimental.equalise_cubes import equalise_attributes
 
-from load_config import LOG_FORMAT, LOG_LEVEL, std_name, aoi, units, long_names
-from utils import create_output_file
+from src.load_config import LOG_FORMAT, LOG_LEVEL, std_name, aoi, units, long_names
+from src.utils import create_output_file
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)

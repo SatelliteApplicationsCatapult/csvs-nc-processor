@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError
 
-from load_config import LOG_LEVEL, LOG_FORMAT
+from src.load_config import LOG_LEVEL, LOG_FORMAT
 
 logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT)
 logger = logging.getLogger(__name__)
